@@ -31,34 +31,38 @@ interface StationStatus {
 
 export class EbikeFinder extends Component<any, { closestStation: Station }> {
   getLocation() {
-    window.navigator.geolocation.getCurrentPosition(async position => {
-      const { coords } = position;
-      const [stations, stationStatuses] = await Promise.all([
-        this.getStations(),
-        this.getStationStatus()
-      ]);
-      console.log(stationStatuses);
-      const distances = stations
-        .map(s => {
-          const distance = this.distanceFrom(
-            { lat: coords.latitude, lon: coords.longitude },
-            s
-          );
-          s.distance = distance;
-          const status = stationStatuses.filter(
-            status => s.station_id === status.station_id
-          )[0];
-          s.status = status;
-          return s;
-        })
-        .sort((a, b) => (a < b ? -1 : 1));
-      const [ebike] = distances.filter(
-        d => d.status.num_bikes_available_types.electric !== 0
-      );
-      this.setState({
-        closestStation: ebike || distances[0]
-      });
-    });
+    window.navigator.geolocation.getCurrentPosition(
+      async position => {
+        const { coords } = position;
+        const [stations, stationStatuses] = await Promise.all([
+          this.getStations(),
+          this.getStationStatus()
+        ]);
+        console.log(stationStatuses);
+        const distances = stations
+          .map(s => {
+            const distance = this.distanceFrom(
+              { lat: coords.latitude, lon: coords.longitude },
+              s
+            );
+            s.distance = distance;
+            const status = stationStatuses.filter(
+              status => s.station_id === status.station_id
+            )[0];
+            s.status = status;
+            return s;
+          })
+          .sort((a, b) => (a < b ? -1 : 1));
+        const [ebike] = distances.filter(
+          d => d.status.num_bikes_available_types.electric !== 0
+        );
+        this.setState({
+          closestStation: ebike || distances[0]
+        });
+      },
+      () => {},
+      { enableHighAccuracy: true }
+    );
   }
   toRad(num: number) {
     return (num * Math.PI) / 180;
