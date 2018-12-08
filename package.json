@@ -5,7 +5,8 @@
   "license": "MIT",
   "scripts": {
     "start": "if-env NODE_ENV=production && npm run -s serve || npm run -s dev",
-    "build": "preact build",
+    "build": "preact build && npm run add-redirects",
+    "add-redirects": "cp _redirects build",
     "serve": "preact build && preact serve",
     "dev": "preact watch",
     "lint": "eslint src"
