@@ -5,6 +5,7 @@ import Header from './header';
 import Home from '../routes/home';
 import Profile from '../routes/profile';
 import NotFound from '../routes/404';
+import { EbikeFinder } from '../routes/ebike-finder';
 // import Home from 'async!../routes/home';
 // import Profile from 'async!../routes/profile';
 
@@ -27,6 +28,7 @@ export default class App extends Component<any, any> {
           <Home path="/" />
           <Profile path="/profile/" user="me" />
           <Profile path="/profile/:user" />
+          <EbikeFinder path="/ebikes" />
           <NotFound default />
         </Router>
       </div>
