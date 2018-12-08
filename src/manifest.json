@@ -1,7 +1,7 @@
 {
-  "name": "ebike-finder",
-  "short_name": "ebike-finder",
-  "start_url": "/",
+  "name": "Bcycle Ebikes",
+  "short_name": "Ebikes",
+  "start_url": "/ebikes",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#fff",
