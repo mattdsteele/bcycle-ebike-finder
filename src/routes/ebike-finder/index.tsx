@@ -1,6 +1,5 @@
 import { h, Component, FunctionalComponent } from 'preact';
 const style = require('./style');
-
 interface Station {
   lon: number;
   lat: number;
@@ -38,24 +37,25 @@ export class EbikeFinder extends Component<any, { closestStation: Station }> {
           this.getStations(),
           this.getStationStatus()
         ]);
-        console.log(stationStatuses);
         const distances = stations
           .map(s => {
-            const distance = this.distanceFrom(
+            const delta = this.distanceFrom(
               { lat: coords.latitude, lon: coords.longitude },
               s
             );
-            s.distance = distance;
+            s.distance = delta;
             const status = stationStatuses.filter(
               status => s.station_id === status.station_id
             )[0];
             s.status = status;
             return s;
           })
-          .sort((a, b) => (a < b ? -1 : 1));
+          .sort((a, b) => (a.distance < b.distance ? -1 : 1));
         const [ebike] = distances.filter(
           d => d.status.num_bikes_available_types.electric !== 0
         );
+        const onlyDistances = distances.map(d => d.distance);
+        console.log(onlyDistances);
         this.setState({
           closestStation: ebike || distances[0]
         });
@@ -115,7 +115,7 @@ const Position: FunctionalComponent<PositionProps> = ({
     <div>
       <h1>{station.name}</h1>
       <p>is the closest B-Cycle location</p>
-      <h3>{station.distance} km away</h3>
+      <h3>{Math.round(station.distance * 10) / 10} km away</h3>
       <h3>
         {station.status.num_bikes_available} bikes available,{' '}
         {station.status.num_bikes_available_types.electric} ebikes
