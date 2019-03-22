@@ -54,8 +54,6 @@ export class EbikeFinder extends Component<any, { closestStation: Station }> {
         const [ebike] = distances.filter(
           d => d.status.num_bikes_available_types.electric !== 0
         );
-        const onlyDistances = distances.map(d => d.distance);
-        console.log(onlyDistances);
         this.setState({
           closestStation: ebike || distances[0]
         });
@@ -85,7 +83,7 @@ export class EbikeFinder extends Component<any, { closestStation: Station }> {
       'https://gbfs.bcycle.com/bcycle_heartland/station_information.json';
     const res = await fetch(url);
     const asJson = await res.json();
-    return asJson.data.stations as Station[];
+    return asJson.data.Stations as Station[];
   }
   async getStationStatus() {
     const url = 'https://gbfs.bcycle.com/bcycle_heartland/station_status.json';
