@@ -83,7 +83,7 @@ export class EbikeFinder extends Component<any, { closestStation: Station }> {
       'https://gbfs.bcycle.com/bcycle_heartland/station_information.json';
     const res = await fetch(url);
     const asJson = await res.json();
-    return asJson.data.Stations as Station[];
+    return asJson.data.stations as Station[];
   }
   async getStationStatus() {
     const url = 'https://gbfs.bcycle.com/bcycle_heartland/station_status.json';
